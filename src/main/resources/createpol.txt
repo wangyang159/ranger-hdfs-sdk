@@ -1,0 +1,78 @@
+======================多路径、单用户、多权限类别
+{
+  "service": "hadoopdev",
+  "name": "policy__test2",
+  "isEnabled": true,
+  "isAuditEnabled": true,
+  "resources": {
+    "path": {
+      "values": [
+        "/test2"
+      ],
+      "isExcludes": false,
+      "isRecursive": true
+    }
+  },
+  "policyItems": [
+    {
+      "users": [
+        "hive"
+      ],
+      "accesses": [
+        {
+          "type": "read",
+          "isAllowed": true
+        }
+      ]
+    }
+  ]
+}
+
+=======================多路径、多用户、多权限类型
+{
+  "service": "hadoopdev",
+  "name": "policy__test3",
+  "isEnabled": true,
+  "isAuditEnabled": true,
+  "resources": {
+    "path": {
+      "values": [
+        "/test3"
+      ],
+      "isExcludes": false,
+      "isRecursive": true
+    }
+  },
+  "policyItems": [
+    {
+      "users": [
+        "hive"
+      ],
+      "accesses": [
+        {
+          "type": "read",
+          "isAllowed": true
+        }
+      ]
+    },
+    {
+      "users": [
+        "root"
+      ],
+      "accesses": [
+        {
+          "type": "read",
+          "isAllowed": true
+        },
+        {
+          "type": "write",
+          "isAllowed": true
+        },
+        {
+          "type": "execute",
+          "isAllowed": true
+        }
+      ]
+    }
+  ]
+}
