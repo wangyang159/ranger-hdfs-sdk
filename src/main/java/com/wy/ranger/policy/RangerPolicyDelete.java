@@ -29,7 +29,7 @@ public class RangerPolicyDelete {
             CloseableHttpClient httpClient = HttpClients.createDefault();
 
             // DELETE /service/public/v2/api/policy/{id}
-            HttpDelete httpDelete = new HttpDelete(RANGER_URL + "/service/public/v2/api/policy/5");
+            HttpDelete httpDelete = new HttpDelete(RANGER_URL + "/service/public/v2/api/policy/15");
             //访问头
             httpDelete.setHeader("Content-Type", "*/*; charset=UTF-8");
 
@@ -37,9 +37,16 @@ public class RangerPolicyDelete {
             String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
             httpDelete.setHeader("Authorization", "Basic " + encodedAuth);
 
+            //删除API没有返回体，直接获取返回会报错的，所以有强校验需求的要查询一下
             CloseableHttpResponse response = httpClient.execute(httpDelete);
             HttpEntity entity = response.getEntity();
-            return EntityUtils.toString(entity);
+            String responseBody = (entity != null) ? EntityUtils.toString(entity) : "";
+
+            if ( responseBody==null || responseBody.length()==0 || responseBody.equals("") ){
+                EntityUtils.consume(entity);//为空的话要保障资源的正常释放，有反时用的是toString
+            }
+
+            return responseBody;
 
         }catch (Exception e){
             throw e;
